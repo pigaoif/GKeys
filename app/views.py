@@ -26,5 +26,26 @@ def servidor_form(request):
     data['form'] = ServidorForm()
     return render(request, 'servidor_form.html', data)
 
+
+def servidor_view(request, pk):
+    data = {}
+    data['db'] = Servidor.objects.get(pk=pk)
+    
+    return render(request, 'servidor_view.html', data)
+
+def servidor_update(request, pk):   
+    data = {}
+    data['db'] = Servidor.objects.get(pk=pk)
+    form = ServidorForm(request.POST or None, instance=data['db'])
+    if form.is_valid():
+        form.save()
+        return redirect('servidor_index')
+
+def servidor_edit(request, pk):
+    data = {}
+    data['db'] = Servidor.objects.get(pk=pk)
+    data['form'] = ServidorForm(instance=data['db']) 
+    return render(request, 'servidor_form.html', data)
+
     
 

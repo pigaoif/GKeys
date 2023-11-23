@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+    <div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+
+    <h1>DETALHES DO SERVIDOR</h1>
+    
+    </div>
+
+    <div class="col-8 m-auto pt-1 pb-1 text-center card rounded bg-light mb-4">
+      <table class="table table-striped">
+        
+        <tbody>
+            
+              <tr>
+                <td style="text-align: left;"><strong>Nome: </strong>{{db.nome}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>Cargo: </strong>{{db.cargo}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>E-mail: </strong>{{db.email}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>Biometria: </strong>{{db.biometria}}</td>
+              </tr>
+            
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-8 m-auto pt-2 pb-2 text-center ">
+        
+        <a class="btn btn-danger" style="width: 150px;" href="/servidor_index"> Voltar </a>
+        
+        
+    </div>
+
+{% endblock %}
