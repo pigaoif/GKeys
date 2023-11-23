@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+    <div class="col-10 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+
+    <h1>RELAÇÃO DE SERVIDORES CADASTRADOS</h1>
+    
+    </div>
+
+    <div class="col-10 m-auto pt-1 pb-1 text-center card rounded bg-light mb-4">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Cargo</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>@mdo</td>
+              </tr>              
+            </tbody>
+          </table>
+    </div>
+
+    <div class="col-10 m-auto pt-2 pb-2 text-center ">
+
+        <a class="btn btn-primary" href="/servidor_create"> Cadastrar </a>
+        <a class="btn btn-danger" href="/"> Voltar </a>
+        
+        
+    </div>
+
+{% endblock %}
