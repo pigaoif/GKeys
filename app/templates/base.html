@@ -1,0 +1,82 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian Keys</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <nav class="navbar p-2 bg-success ">
+        <div class="container-fluid  bg-success ">
+          <a class="fs-4 navbar-brand text-light" href="#"><strong>GUARDIAN KEYS</strong> </a>
+            <button class=" btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon "></span>
+            </button>
+          <div class="offcanvas offcanvas-end  bg-success text-light opacity-75" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title " id="offcanvasNavbarLabel">MENU</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            
+            <div class="offcanvas-body ">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 ">
+                <li class="nav-item ">
+                  <a class="nav-link active text-white" aria-current="page" href="#"><strong>Home</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="#"><strong>Servidor</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="#"><strong>Chave</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="#"><strong>Empréstimo</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-white" aria-current="page" href="#"><strong>Devolução</strong></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active text-warning" aria-current="page" href="#"><strong>Logout</strong></a>
+                </li>               
+              </ul>
+
+              
+            </div>
+          </div>
+        </div>
+    </nav>
+
+    <br>
+    {% block content %}
+    {% endblock %}
+    <br>
+
+<!-- Remove the container if you want to extend the Footer to full width. -->
+<div class="p-2 bg-success">
+
+    <footer class="bg-success text-center text-white">
+    
+    <div class="text-center p-1" style="background-color: rgba(0, 0, 0, 0.2);">
+        <a class="text-white" href=""><strong>INSTITUTO FEDERAL DE CIÊNCIA E TECNOLOGIA DO NORTE DE MINAS GERAIS - IFNMG - CAMPUS ARINOS</strong></a>
+        <p>© Desenvolvido pela CGTI - Campus Arinos</p>        
+    </div>
+    
+    </footer>  
+
+</div>
+
+</body>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</html>
