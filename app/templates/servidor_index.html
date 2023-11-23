@@ -20,20 +20,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-              </tr>              
+              {% for dbs in db %}
+                <tr>
+                  <th scope="row">{{dbs.id}}</th>
+                  <td>{{dbs.nome}}</td>
+                  <td>{{dbs.cargo}}</td>
+                  <td>{{dbs.email}}</td>
+                  <td></td>
+                </tr>             
+              {% endfor %}
             </tbody>
           </table>
     </div>
 
     <div class="col-10 m-auto pt-2 pb-2 text-center ">
 
-        <a class="btn btn-primary" href="/servidor_create"> Cadastrar </a>
+        <a class="btn btn-primary" href="/servidor_form"> Cadastrar </a>
         <a class="btn btn-danger" href="/"> Voltar </a>
         
         

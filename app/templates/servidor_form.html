@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+    <div class="col-10 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+
+      <h1>CADASTRAR NOVO SERVIDOR</h1>
+    
+    </div>
+
+    <div class="col-10 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+      <form name="form" id="form" method="post" action="/servidor_create/">
+      {% csrf_token %}
+      <div class="form-group mt-4">Nome: {{ form.nome }}</div>
+      <div class="form-group mt-4">Cargo: {{ form.cargo }}</div>
+      <div class="form-group mt-4">E-mail: {{ form.email }}</div>
+      <div class="form-group mt-4">Biometria: {{ form.biometria }}</div>
+       
+
+      <div class="col-10 m-auto pt-2 pb-2 text-center ">
+        <input type="submit" class="btn btn-primary" value="Salvar">
+        <a class="btn btn-danger" href="/servidor_index"> Voltar </a>
+      </div>
+
+        
+      </form>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pi19gao05pinuX
+
