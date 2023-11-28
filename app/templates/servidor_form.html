@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 {% block content%}
 
@@ -8,23 +9,24 @@
     
     </div>
 
-    <div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
-      <form name="form" id="form" method="post" action="{% if db %} /servidor_update/{{db.id}}/ {% else%} /servidor_create/ {% endif %}">
-      {% csrf_token %}
-      <div class="form-group mt-4">Nome: {{ form.nome }}</div>
-      <div class="form-group mt-4">Cargo: {{ form.cargo }}</div>
-      <div class="form-group mt-4">E-mail: {{ form.email }}</div>
-      <div class="form-group mt-4">Biometria: {{ form.biometria }}</div>
+    <div class="col-8 m-auto pt-2 pb-2 text-left mb-4 bg-light card rounded">
+      <form  name="form" id="form" method="post" action="{% if db %} /servidor_update/{{db.id}}/ {% else%} /servidor_create/ {% endif %}">
+      {% csrf_token %}      
+      
+      <div class="m-auto col-8 text-start form-group" ><strong>{{ form.nome|as_crispy_field }}</strong></div>
+      <div class="m-auto col-8 text-start form-group" ><strong>{{ form.cargo|as_crispy_field }}</strong></div>
+      <div class="m-auto col-8 text-start form-group"><strong>{{ form.email|as_crispy_field }}</strong></div>
+      <div class="m-auto col-8 text-start form-group"><strong>{{ form.biometria|as_crispy_field }}</strong></div>
        
     </div>    
 
-      <div class="col-8 m-auto pt-0 pb-2 text-center ">
-        <input type="submit" class="btn btn-primary" style="width: 150px; " value="Salvar">
-        <a class="btn btn-danger" style="width: 150px; " href="/servidor_index"> Voltar </a>
-      </div>
+    <div class="col-8 m-auto pt-0 pb-2 text-center ">
+      <input type="submit" class="btn btn-primary" style="width: 150px; " value="Salvar">
+      <a class="btn btn-danger" style="width: 150px; " href="/servidor_index"> Voltar </a>
+    </div>
 
         
-      </form>
+    </form>
 
 {% endblock %}
 

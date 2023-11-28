@@ -22,9 +22,8 @@ def servidor_create(request):
     
 
 def servidor_form(request):
-    data = {}
-    data['form'] = ServidorForm()
-    return render(request, 'servidor_form.html', data)
+    form = ServidorForm()    
+    return render(request, 'servidor_form.html', {'form': form} )
 
 
 def servidor_view(request, pk):

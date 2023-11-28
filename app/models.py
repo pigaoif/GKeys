@@ -1,4 +1,6 @@
 from django.db import models
+from django import forms
+
 
 # Create your models here.
 
@@ -15,8 +17,11 @@ CARGO = (
 class Servidor(models.Model):
     nome = models.CharField(max_length=150)
     cargo = models.CharField(max_length=22, choices=CARGO)
-    email = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(max_length=150, unique=True)
     biometria = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
         return self.nome
+    
+
+
