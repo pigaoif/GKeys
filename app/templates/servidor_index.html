@@ -20,7 +20,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for dbs in db %}
+              {% for dbs in page.object_list %}
                 <tr>
                   <th scope="row">{{dbs.id}}</th>
                   <td>{{dbs.nome}}</td>
@@ -35,6 +35,17 @@
               {% endfor %}
             </tbody>
           </table>
+
+          <div class="page-links">
+            {% if page.has_previous %}
+              <a href="{% url 'servidor_index' %}?page={{page.previous_page_number}}">Anterior</a>
+            {% endif %}
+
+            {% if page.has_next %}
+              <a href="{% url 'servidor_index' %}?page={{page.next_page_number}}">Proximo</a>
+            {% endif %}
+
+          </div>
     </div>
 
     <div class="col-8 m-auto pt-2 pb-2 text-center ">

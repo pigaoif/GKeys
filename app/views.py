@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from app.forms import ServidorForm
 from app.models import Servidor
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -11,7 +12,11 @@ def home(request):
 def servidor_index(request):
     data = {}
     data['db'] = Servidor.objects.all()
-    return render(request, 'servidor_index.html', data)
+    paginators = Paginator (data['db'], 10)
+    page_num = request.GET.get('page')
+    page = paginators.get_page(page_num)
+
+    return render(request, 'servidor_index.html', {'page': page})
 
 def servidor_create(request):
     form = ServidorForm(request.POST or None)
