@@ -1,9 +1,5 @@
 from django.db import models
-from django import forms
-
-
-# Create your models here.
-
+from django.core.exceptions import ValidationError
 
 CARGO = (
     ('Professor EBTT', 'Professor EBTT'),
@@ -23,5 +19,14 @@ class Servidor(models.Model):
     def __str__(self):
         return self.nome
     
+    def clean(self):
+        # Validação personalizada antes de salvar
+        if self.biometria and Servidor.objects.filter(biometria=self.biometria).exclude(pk=self.pk).exists():
+            raise ValidationError({'biometria': 'Biometria já existe'})
+        
+        if self.email and Servidor.objects.filter(email=self.email).exclude(pk=self.pk).exists():
+            raise ValidationError({'email': 'E-mail já existe'})
 
+        # Outras validações...
 
+        super().clean()

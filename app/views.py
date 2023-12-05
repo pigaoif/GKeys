@@ -18,11 +18,19 @@ def servidor_index(request):
 
     return render(request, 'servidor_index.html', {'page': page})
 
+from django.shortcuts import render, redirect
+from .forms import ServidorForm  # Certifique-se de importar o formulário correto
+
 def servidor_create(request):
     form = ServidorForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        return redirect('servidor_index')
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('servidor_index')
+
+    return render(request, 'servidor_form.html', {'form': form})
+
     
     
 

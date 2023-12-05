@@ -13,10 +13,24 @@
       <form  name="form" id="form" method="post" action="{% if db %} /servidor_update/{{db.id}}/ {% else%} /servidor_create/ {% endif %}">
       {% csrf_token %}      
       
-      <div class="m-auto col-8 text-start form-group" ><strong>{{ form.nome|as_crispy_field }}</strong></div>
-      <div class="m-auto col-8 text-start form-group" ><strong>{{ form.cargo|as_crispy_field }}</strong></div>
-      <div class="m-auto col-8 text-start form-group"><strong>{{ form.email|as_crispy_field }}</strong></div>
-      <div class="m-auto col-8 text-start form-group"><strong>{{ form.biometria|as_crispy_field }}</strong></div>
+      <div class="m-auto col-8 text-start form-group" >
+        <strong>{{ form.nome|as_crispy_field }}</strong>
+        
+      </div>
+      
+      <div class="m-auto col-8 text-start form-group" >
+        <strong>{{ form.cargo|as_crispy_field }}</strong>
+        
+      </div>
+      
+      <div class="m-auto col-8 text-start form-group">
+        <strong>{{ form.email|as_crispy_field }}</strong>
+        
+      </div>
+      <div class="m-auto col-8 text-start form-group">
+        <strong>{{ form.biometria|as_crispy_field }}</strong>
+        
+      </div>
        
     </div>    
 
@@ -51,5 +65,5 @@
 
 
 
-Pi19gao05pinuX
+
 
