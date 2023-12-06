@@ -44,6 +44,7 @@ pip install -r requirements.txt
 
 # Execute as migrações do banco de dados:
 
+python manage.py makemigrations  
 python manage.py migrate
 
 # Inicie o servidor local:
