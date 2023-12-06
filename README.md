@@ -29,6 +29,14 @@ Clone este repositório:
 git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
 
+# Crie um Ambiente Virtual
+
+python -m venv venv
+
+# Ative o ambiente virtual:
+
+Windows: venv/Scripts/activate
+Linux: source venv/bin/activate
 
 # Instale as dependências:
 
