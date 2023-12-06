@@ -12,7 +12,7 @@ O banco de dados utiliza SQLite e é composto por cinco tabelas principais:
   - devolucao;
   - usuario.
 
-A principal característica do sistema é a integração de tecnologias de leitura para proporcionar uma experiência eficiente e segura.
+A principal característica do sistema é a integração de tecnologias de leitura para proporcionar uma experiência eficiente e segura.  
 Utiliza-se um leitor de código de barras para identificação das chaves e a leitura biométrica para autenticação dos servidores.
 
 # Requisitos do Sistema
@@ -59,41 +59,41 @@ http://localhost:8000/
 
 Faça login utilizando usuario: reprografia e senha:reprografia para autenticação.
 
-Utilize o leitor de código de barras para identificar as chaves desejadas.
+Utilize o leitor de código de barras para identificar as chaves desejadas.  
 Utilize o leitor biometrico para identificar o servidor que pegará a chave emprestada.
 
 # Estrutura do Banco de Dados
 
-1. Tabela servidor
-Descrição: Armazena informações sobre os servidores do campus.
+1. Tabela servidor  
+Descrição: Armazena informações sobre os servidores do campus.  
 Campos: id, nome, cargo, email, biometria
 
-2. Tabela chave
-Descrição: Contém dados das chaves disponíveis.
+2. Tabela chave  
+Descrição: Contém dados das chaves disponíveis.  
 Campos: id, descricao, status, codbarra
 
-3. Tabela empréstimo
-Descrição: Registra os empréstimos de chaves.
+3. Tabela empréstimo  
+Descrição: Registra os empréstimos de chaves.  
 Campos: id, chave_id, servidor_id, data_emprestimo, status
 
-4. Tabela devolução
-Descrição: Registra as devoluções de chaves.
+4. Tabela devolução  
+Descrição: Registra as devoluções de chaves.  
 Campos: id, id_chave, data_devolucao,
 
-5. Tabela usuário
-Descrição: Armazena informações sobre os usuários do sistema.
-Campos: id, nome, user, password
+5. Tabela usuário  
+Descrição: Armazena informações sobre os usuários do sistema.  
+Campos: id, nome, user, password  
 
 # Integração de Dispositivos
 
-1. Leitor de Código de Barras
-Descrição: Utilizado para identificação das chaves.
+1. Leitor de Código de Barras  
+Descrição: Utilizado para identificação das chaves.  
 Conexão: USB.
 
-2. Leitor Biométrico
-Descrição: Utilizado para identificar os servidores/funcionários.
-Dispositivo: Sensor biométrico compatível.
-Métodos de autenticação: Impressão digital.
+2. Leitor Biométrico  
+Descrição: Utilizado para identificar os servidores/funcionários.  
+Dispositivo: Sensor biométrico compatível.  
+Métodos de autenticação: Impressão digital.  
 
 # Contribuições
 Contribuições são bem-vindas! Sinta-se à vontade para abrir problemas ou enviar pull requests.
