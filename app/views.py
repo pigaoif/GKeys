@@ -11,15 +11,20 @@ def home(request):
 
 def servidor_index(request):
     data = {}
-    data['db'] = Servidor.objects.all()
-    paginators = Paginator (data['db'], 10)
-    page_num = request.GET.get('page')
-    page = paginators.get_page(page_num)
+    search = request.GET.get('search')
+    if search:
+        data['db'] = Servidor.objects.filter(nome__icontains=search)
+        paginators = Paginator (data['db'], 1000)
+        page_num = request.GET.get('page')
+        page = paginators.get_page(page_num)
+    else:    
+        data['db'] = Servidor.objects.all()
+        paginators = Paginator (data['db'], 10)
+        page_num = request.GET.get('page')
+        page = paginators.get_page(page_num)
 
     return render(request, 'servidor_index.html', {'page': page})
 
-from django.shortcuts import render, redirect
-from .forms import ServidorForm  # Certifique-se de importar o formulário correto
 
 def servidor_create(request):
     form = ServidorForm(request.POST or None)
@@ -59,5 +64,9 @@ def servidor_edit(request, pk):
     data['form'] = ServidorForm(instance=data['db']) 
     return render(request, 'servidor_form.html', data)
 
+def servidor_delete(request, pk):
+    db = Servidor.objects.get(pk=pk)
+    db.delete()    
+    return redirect('servidor_index')
     
 
