@@ -30,3 +30,28 @@ class Servidor(models.Model):
         # Outras validações...
 
         super().clean()
+
+STATUS = (
+    ('Emprestada', 'Emprestada'),
+    ('Livre', 'Livre'),
+)
+
+class Chave(models.Model):
+    descricao = models.CharField(max_length=150)
+    status = models.CharField(max_length=22, choices=STATUS)     
+    codbarra = models.CharField(max_length=150, unique=True)
+
+    def __str__(self):
+        return self.descricao
+    
+    def clean(self):
+        # Validação personalizada antes de salvar
+        if self.codbarra and Chave.objects.filter(codbarra=self.codbarra).exclude(pk=self.pk).exists():
+            raise ValidationError({'codbarra': 'Código de Barra já existe'})
+        
+        if self.descricao and Chave.objects.filter(descricao=self.descricao).exclude(pk=self.pk).exists():
+            raise ValidationError({'descricao': 'Descrição de chave já está sendo utilizada.'})
+
+        # Outras validações...
+
+        super().clean()

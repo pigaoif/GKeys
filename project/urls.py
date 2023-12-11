@@ -17,16 +17,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app.views import home, servidor_index, servidor_create, servidor_form, servidor_view, servidor_update, servidor_edit, servidor_delete
-
+from app.views import chave_index, chave_create, chave_form, chave_view, chave_edit, chave_update, chave_delete
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('servidor_index/', servidor_index, name='servidor_index'),
+    path('chave_index/', chave_index, name='chave_index'),
     path('servidor_create/', servidor_create, name='servidor_create'),
+    path('chave_create/', chave_create, name='chave_create'),
     path('servidor_form/', servidor_form, name='servidor_form'),
+    path('chave_form/', chave_form, name='chave_form'),
     path('servidor_view/<int:pk>/', servidor_view, name='servidor_view'),
+    path('chave_view/<int:pk>/', chave_view, name='chave_view'),
     path('servidor_update/<int:pk>/', servidor_update, name='servidor_update'),
+    path('chave_update/<int:pk>/', chave_update, name='chave_update'),
     path('servidor_edit/<int:pk>/', servidor_edit, name='servidor_edit'),
+    path('chave_edit/<int:pk>/', chave_edit, name='chave_edit'),
     path('servidor_delete/<int:pk>/', servidor_delete, name='servidor_delete'),
+    path('chave_delete/<int:pk>/', chave_delete, name='chave_delete'),
 ]
 

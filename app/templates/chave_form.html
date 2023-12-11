@@ -5,30 +5,26 @@
 
     <div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
 
-      <h1>CADASTRAR NOVO SERVIDOR</h1>
+      <h1>CADASTRAR NOVA CHAVE</h1>
     
     </div>
 
     <div class="col-8 m-auto pt-2 pb-2 text-left mb-4 bg-light card rounded">
-      <form  name="form" id="form" method="post" action="{% if db %} /servidor_update/{{db.id}}/ {% else%} /servidor_create/ {% endif %}">
+      <form  name="form" id="form" method="post" action="{% if db %} /chave_update/{{db.id}}/ {% else%} /chave_create/ {% endif %}">
       {% csrf_token %}      
       
       <div class="m-auto col-8 text-start form-group" >
-        <strong>{{ form.nome|as_crispy_field }}</strong>
+        <strong>{{ form.descricao|as_crispy_field }}</strong>
         
       </div>
       
       <div class="m-auto col-8 text-start form-group" >
-        <strong>{{ form.cargo|as_crispy_field }}</strong>
+        <strong>{{ form.status|as_crispy_field }}</strong>
         
       </div>
       
       <div class="m-auto col-8 text-start form-group">
-        <strong>{{ form.email|as_crispy_field }}</strong>
-        
-      </div>
-      <div class="m-auto col-8 text-start form-group">
-        <strong>{{ form.biometria|as_crispy_field }}</strong>
+        <strong>{{ form.codbarra|as_crispy_field }}</strong>
         
       </div>
        
@@ -36,7 +32,7 @@
 
     <div class="col-8 m-auto pt-0 pb-2 text-center ">
       <input type="submit" class="btn btn-primary" style="width: 150px; " value="Salvar">
-      <a class="btn btn-danger" style="width: 150px; " href="/servidor_index"> Voltar </a>
+      <a class="btn btn-danger" style="width: 150px; " href="/chave_index"> Voltar </a>
     </div>
 
         
