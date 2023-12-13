@@ -55,3 +55,17 @@ class Chave(models.Model):
         # Outras validações...
 
         super().clean()
+
+class Emprestimo(models.Model):
+    id_servidor = models.ForeignKey(Servidor, on_delete=models.CASCADE)
+    id_chave = models.ForeignKey(Chave, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
+    data_emprestimo = models.DateField(auto_now_add=True) 
+
+    def __str__(self):
+         return f"{self.id_servidor} - {self.id_chave} - {self.status}"
+    
+    def save(self, *args, **kwargs):
+        # Garanta que o status seja sempre definido como True (1) ao salvar
+        self.status = True
+        super().save(*args, **kwargs)

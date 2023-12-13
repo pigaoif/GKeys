@@ -18,14 +18,18 @@ from django.contrib import admin
 from django.urls import path
 from app.views import home, servidor_index, servidor_create, servidor_form, servidor_view, servidor_update, servidor_edit, servidor_delete
 from app.views import chave_index, chave_create, chave_form, chave_view, chave_edit, chave_update, chave_delete
+from app.views import emprestimo_index, emprestimo_create, emprestimo_form
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('servidor_index/', servidor_index, name='servidor_index'),
     path('chave_index/', chave_index, name='chave_index'),
+    path('emprestimo_index/', emprestimo_index, name='emprestimo_index'),
     path('servidor_create/', servidor_create, name='servidor_create'),
+    path('emprestimo_create/', emprestimo_create, name='emprestimo_create'),
     path('chave_create/', chave_create, name='chave_create'),
     path('servidor_form/', servidor_form, name='servidor_form'),
+    path('emprestimo_form/', emprestimo_form, name='emprestimo_form'),
     path('chave_form/', chave_form, name='chave_form'),
     path('servidor_view/<int:pk>/', servidor_view, name='servidor_view'),
     path('chave_view/<int:pk>/', chave_view, name='chave_view'),

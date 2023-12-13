@@ -2,84 +2,47 @@
 {% load static %}
 {% block content%}
 
-<div style="padding-top: 2px; padding-bottom: 20px;"  class="col-8 m-auto text-center ">
+<div style="padding-top: 2px; padding-bottom: 20px;"  class="col-10 m-auto text-center ">
     
-     <img style=" display: inline-flex; margin-right: 50px; width: 150px;" src="{% static 'img/EMPRESTIMO.png'%}" alt=""> 
+     <a href="/emprestimo_form/"><img style=" display: inline-flex; margin-right: 50px; width: 150px;" src="{% static 'img/EMPRESTIMO.png'%}" alt="Empréstimo"></a>  
      <img style="display: inline-flex; margin-right: 50px; width: 150px;" src="{% static 'img/DEVOLUCAO.png'%}" alt="">
     
     
 </div>
 
-<div class="col-8 m-auto pt-2 pb-2 card rounded bg-light text-center mb-4">
+<div class="col-10 m-auto pt-2 pb-2 card rounded bg-light text-center mb-4">
     <h1>CHAVES EMPRESTADAS</h1>
 </div>
 
-<div class="col-8 m-auto pt-2 pb-2 card rounded bg-light">
+<div class="col-10 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+    <form  method="get" >
+      {% csrf_token %}
+      <label for="inputBuscar" class="form-label" ></label><strong>BUSCAR EMPRÉSTIMO:</strong></label>
+
+   
+      
+      <div class="d-flex justify-content-center align-items-center mt-2 mb-2">
+        <input type="text" id="search" name="search" class="form-control me-3" style="width: 60%;" placeholder="Digite a descrição da chave que deseja buscar.">
+        <button type="submit" class="btn btn-warning me-2">Buscar</button>
+      </div>    
+
+    </form>
+  </div>
+
+<div class="col-10 m-auto pt-2 pb-2 card rounded bg-light">
     <div class="row m-auto">
-        
-        <div class="col-md-3 mt-2 mb-2">
+        {% for a in emprestimo %}
+        <div class="col-md-{% if emprestimo|length <= 4 %}6{% else %}3{% endif %} mt-2 mb-2">
             <div class="card" style="background-color: aquamarine;">
                 <div class="card-body">
-                    <h3 class="card-title text-center">Chave: CGTI</h3>
-                    <h5 class="card-title text-center">Servidor: Fernando Macedo Lopes</h5>
-                    <p class="card-title text-center">Data: 15/11/2023</p>
+                    <h3 class="card-title text-center">Chave: {{ a.id_chave }}</h3>
+                    <h5 class="card-title text-center">Servidor:  {{ a.id_servidor }}</h5>
+                    <p class="card-title text-center"><strong>Data:</strong>{{ a.data_emprestimo }}</p>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-3 mb-2 mt-2">
-            <div class="card" style="background-color: aquamarine;">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Chave: CGTI</h3>
-                    <h5 class="card-title text-center">Servidor: Fernando Macedo Lopes</h5>
-                    <p class="card-title text-center">Data: 15/11/2023</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-2 mt-2">
-            <div class="card" style="background-color: aquamarine;">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Chave: CGTI</h3>
-                    <h5 class="card-title text-center">Servidor: Fernando Macedo Lopes</h5>
-                    <p class="card-title text-center">Data: 15/11/2023</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-2 mt-2">
-            <div class="card" style="background-color: aquamarine;">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Chave: CGTI</h3>
-                    <h5 class="card-title text-center">Servidor: Fernando Macedo Lopes</h5>
-                    <p class="card-title text-center">Data: 15/11/2023</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3 mb-2 mt-2">
-            <div class="card" style="background-color: aquamarine;">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Chave: CGTI</h3>
-                    <h5 class="card-title text-center">Servidor: Fernando Macedo Lopes</h5>
-                    <p class="card-title text-center">Data: 15/11/2023</p>
-                </div>
-            </div>
-        </div>
-        
-
-        <div class="col-md-3 mb-2 mt-2">
-            <div class="card" style="background-color: aquamarine;">
-                <div class="card-body">
-                    <h3 class="card-title text-center">Chave: CGTI</h3>
-                    <h5 class="card-title text-center">Servidor: Fernando Macedo Lopes</h5>
-                    <p class="card-title text-center">Data: 15/11/2023</p>
-                </div>
-            </div>
-        </div>
-
+        {% endfor %}
     </div>
 </div>
-
 
 {% endblock %}

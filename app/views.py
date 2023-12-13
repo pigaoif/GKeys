@@ -1,15 +1,26 @@
 from django.shortcuts import render, redirect
 from app.forms import ServidorForm
 from app.forms import ChaveForm
+from app.forms import EmprestimoForm
 from app.models import Servidor
 from app.models import Chave
+from app.models import Emprestimo
 from django.core.paginator import Paginator
 
 
 # Create your views here.
 
 def home(request):
-    return render(request, 'index.html')
+    
+    data = {}
+    search = request.GET.get('search')
+    if search:
+        data['emprestimo'] = Emprestimo.objects.filter(id_chave__descricao__icontains=search)
+        
+    else:    
+        data['emprestimo'] = Emprestimo.objects.all()
+
+    return render(request, 'index.html', data)
 
 def servidor_index(request):
     data = {}
@@ -43,6 +54,22 @@ def chave_index(request):
 
     return render(request, 'chave_index.html', {'page': page})
 
+def emprestimo_index(request):
+    data = {}
+    search = request.GET.get('search')
+    if search:
+        data['db'] = Emprestimo.objects.filter(data_emprestimo__icontains=search)
+        paginators = Paginator (data['db'], 1000)
+        page_num = request.GET.get('page')
+        page = paginators.get_page(page_num)
+    else:    
+        data['db'] = Emprestimo.objects.all()
+        paginators = Paginator (data['db'], 10)
+        page_num = request.GET.get('page')
+        page = paginators.get_page(page_num)
+
+    return render(request, 'emprestimo_index.html', {'page': page})
+
 
 def servidor_create(request):
     form = ServidorForm(request.POST or None)
@@ -64,6 +91,16 @@ def chave_create(request):
 
     return render(request, 'chave_form.html', {'form': form})
 
+def emprestimo_create(request):
+    form = EmprestimoForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+
+    return render(request, 'emprestimo_form.html', {'form': form})
+
     
 def servidor_form(request):
     form = ServidorForm()    
@@ -72,6 +109,10 @@ def servidor_form(request):
 def chave_form(request):
     form = ChaveForm()    
     return render(request, 'chave_form.html', {'form': form} )
+
+def emprestimo_form(request):
+    form = EmprestimoForm()    
+    return render(request, 'emprestimo_form.html', {'form': form} )
 
 
 def servidor_view(request, pk):
