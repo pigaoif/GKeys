@@ -2,6 +2,9 @@
 
 Sistema de Empréstimo de Chaves IFNMG Campus Arinos - GUARDIAN KEYS
 
+<img src="/static/img/guardian.png">  
+
+
 # Descrição
 
 O Sistema de Empréstimo de Chaves é uma aplicação desenvolvida em Python com o framework Django, projetada para automatizar o processo de empréstimo e devolução de chaves no IFNMG Campus Arinos.  
