@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from app.views import home, servidor_index, servidor_create, servidor_form, servidor_view, servidor_update, servidor_edit, servidor_delete
 from app.views import chave_index, chave_create, chave_form, chave_view, chave_edit, chave_update, chave_delete
-from app.views import emprestimo_index, emprestimo_create, emprestimo_form
+from app.views import emprestimo_index, emprestimo_create, emprestimo_form, get_servidor_by_biometria, get_chave_by_codbarra,emprestimo_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -32,6 +32,7 @@ urlpatterns = [
     path('emprestimo_form/', emprestimo_form, name='emprestimo_form'),
     path('chave_form/', chave_form, name='chave_form'),
     path('servidor_view/<int:pk>/', servidor_view, name='servidor_view'),
+    path('emprestimo_view/<int:pk>/', emprestimo_view, name='emprestimo_view'),
     path('chave_view/<int:pk>/', chave_view, name='chave_view'),
     path('servidor_update/<int:pk>/', servidor_update, name='servidor_update'),
     path('chave_update/<int:pk>/', chave_update, name='chave_update'),
@@ -39,5 +40,8 @@ urlpatterns = [
     path('chave_edit/<int:pk>/', chave_edit, name='chave_edit'),
     path('servidor_delete/<int:pk>/', servidor_delete, name='servidor_delete'),
     path('chave_delete/<int:pk>/', chave_delete, name='chave_delete'),
+    path('get_servidor_by_biometria/', get_servidor_by_biometria, name='get_servidor_by_biometria'),
+    path('get_chave_by_codbarra/', get_chave_by_codbarra, name='get_chave_by_codbarra'),
+
 ]
 

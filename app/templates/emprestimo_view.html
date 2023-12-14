@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+    <div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+
+    <h1>DETALHES DO EMPRÉSTIMO</h1>
+    
+    </div>
+
+    <div class="col-8 m-auto pt-1 pb-1 text-center card rounded bg-light mb-4">
+      <table class="table table-striped">
+        
+        <tbody>
+            
+              <tr>
+                <td style="text-align: left;"><strong>Chave Emprestada: </strong>{{db.id_chave}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>Servidor Responsável: </strong>{{db.id_servidor}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>Data do Empréstimo: </strong>{{db.data_emprestimo}}</td>
+              </tr>
+              <tr>
+                <td style="text-align: left;"><strong>Status:</strong> {% if db.status %} Ativo {% else %} Inativo {% endif %}</td>
+
+              </tr>
+            
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-8 m-auto pt-2 pb-2 text-center ">
+        
+        <a class="btn btn-danger" style="width: 150px;" href="/emprestimo_index"> Voltar </a>
+        
+        
+    </div>
+
+{% endblock %}

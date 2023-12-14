@@ -6,6 +6,8 @@ from app.models import Servidor
 from app.models import Chave
 from app.models import Emprestimo
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+
 
 
 # Create your views here.
@@ -18,7 +20,7 @@ def home(request):
         data['emprestimo'] = Emprestimo.objects.filter(id_chave__descricao__icontains=search)
         
     else:    
-        data['emprestimo'] = Emprestimo.objects.all()
+        data['emprestimo'] = Emprestimo.objects.filter(status=True)
 
     return render(request, 'index.html', data)
 
@@ -91,15 +93,32 @@ def chave_create(request):
 
     return render(request, 'chave_form.html', {'form': form})
 
+
+
 def emprestimo_create(request):
     form = EmprestimoForm(request.POST or None)
 
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            # Obtém a chave associada ao empréstimo
+            chave = form.cleaned_data['id_chave']
+
+            # Verifica se a chave está livre
+            if chave.status == 'Livre':
+                # Salva o empréstimo
+                emprestimo = form.save()
+
+                # Atualiza o status da chave para "Emprestada"
+                chave.status = 'Emprestada'
+                chave.save()
+
+                return redirect('home')
+            else:
+                # A chave não está livre, informa ao usuário
+                form.add_error('id_chave', 'Chave não está livre. Status: ' + chave.status)
 
     return render(request, 'emprestimo_form.html', {'form': form})
+  
 
     
 def servidor_form(request):
@@ -126,6 +145,12 @@ def chave_view(request, pk):
     data['db'] = Chave.objects.get(pk=pk)
     
     return render(request, 'chave_view.html', data)
+
+def emprestimo_view(request, pk):
+    data = {}
+    data['db'] = Emprestimo.objects.get(pk=pk)
+
+    return render(request, 'emprestimo_view.html', data)
 
 def servidor_update(request, pk):   
     data = {}
@@ -166,3 +191,36 @@ def chave_delete(request, pk):
     return redirect('chave_index')
     
 
+def get_servidor_by_biometria(request):
+    biometria = request.GET.get('biometria', None)
+    data = {}
+
+    if biometria:
+        try:
+            servidor = Servidor.objects.get(biometria=biometria)
+            data['id_servidor'] = servidor.pk
+            data['nome'] = servidor.nome
+        except Servidor.DoesNotExist:
+            data['id_servidor'] = None
+            data['nome'] = None
+
+    return JsonResponse(data)
+
+
+
+def get_chave_by_codbarra(request):
+    codbarra = request.GET.get('codbarra', None)
+    data = {}
+
+    if codbarra:
+        try:
+            chave = Chave.objects.get(codbarra=codbarra)
+            data['id_chave'] = chave.pk
+            data['descricao'] = chave.descricao
+            data['status'] = chave.status
+        except Chave.DoesNotExist:
+            data['id_chave'] = None
+            data['descricao'] = None
+            data['status'] = None
+
+    return JsonResponse(data)

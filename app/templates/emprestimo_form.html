@@ -3,60 +3,122 @@
 {% load static %}
 {% block content%}
 
-    <div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+<div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+  <h1>CADASTRAR NOVO EMPRÉSTIMO</h1>
+</div>
 
-      <h1>CADASTRAR NOVO EMPRÉSTIMO</h1>
-    
+<div class="col-8 m-auto pt-2 pb-2 text-left mb-4 bg-light card rounded">
+  <form name="form" id="form" method="post" action="{% if db %} /emprestimo_update/{{db.id}}/ {% else%} /emprestimo_create/ {% endif %}">
+    {% csrf_token %}
+
+    <div class="m-auto col-10 text-start form-group bg-light card rounded pt-2 pb-2 mt-4">
+      <label style="margin-left: 20px;"><strong>Biometria do Servidor:*</strong></label>
+      <input type="text" class="form-control" id="biometria" name="biometria" style="margin: 10px 10px 10px 20px; width: 25%;">
+      <input type="hidden" id="id_servidor" name="id_servidor">
+      <label style="margin-left: 20px;"><strong>Servidor:</strong></label>
+      <fieldset disabled>
+        <input type="text" class="form-control" id="servidor" name="servidor" style="margin: 10px 10px 10px 20px; width: 75%;">
+      </fieldset>
+      <!-- Mensagem de Servidor Não Encontrado -->
+      <div id="mensagem-servidor-nao-encontrado" style="color: red; margin-left: 20px; display: none;">Servidor não encontrado</div>
     </div>
 
-    <div class="col-8 m-auto pt-2 pb-2 text-left mb-4 bg-light card rounded">
-      <form  name="form" id="form" method="post" action="{% if db %} /emprestimo_update/{{db.id}}/ {% else%} /emprestimo_create/ {% endif %}">
-      {% csrf_token %}      
-      
-      <div class="m-auto col-8 text-start form-group" >
-        <strong>{{ form.id_servidor|as_crispy_field }}</strong>
-        
-      </div>
-      
-      <div class="m-auto col-8 text-start form-group" >
-        <strong>{{ form.id_chave|as_crispy_field }}</strong>
-        
-      </div>
-      
-      
-       
-    </div>    
-
+    <div class="m-auto col-10 text-start form-group bg-light card rounded pt-2 pb-2 mt-4 mb-4">
+      <label style="margin-left: 20px;"><strong>Cod. Barra - Chave:*</strong></label>
+      <input type="text" class="form-control" id="codbarra" name="codbarra" style="margin: 10px 10px 10px 20px; width: 25%;">
+      <input type="hidden" id="id_chave" name="id_chave">
+      <label style="margin-left: 20px;"><strong>Chave:</strong></label>
+      <fieldset disabled>
+        <input type="text" class="form-control" id="chave" name="chave" style="margin: 10px 10px 10px 20px; width: 75%;">
+      </fieldset>
+      <!-- Mensagem de Chave Não Encontrada -->
+      <div id="mensagem-chave-nao-encontrada" style="color: red; margin-left: 20px; display: none;">Chave não encontrada</div>
+    </div>
+  </div>
     <div class="col-8 m-auto pt-0 pb-2 text-center ">
       <input type="submit" class="btn btn-primary" style="width: 150px; " value="Salvar">
       <a class="btn btn-danger" style="width: 150px; " href="/"> Voltar </a>
     </div>
+  </form>
 
-        
-    </form>
+<script>
+  document.getElementById('biometria').focus();
+
+  document.getElementById('biometria').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Impede a submissão padrão do formulário
+      var biometria = this.value;
+      if (biometria.trim() !== '') {
+        // Use Ajax para buscar o ID do servidor com base na biometria
+        fetch('/get_servidor_by_biometria/?biometria=' + biometria)
+          .then(response => response.json())
+          .then(data => {
+            if (data.id_servidor) {
+              document.getElementById('id_servidor').value = data.id_servidor;
+              document.getElementById('servidor').value = data.nome;
+              // Limpar a mensagem se o servidor for encontrado
+              document.getElementById('mensagem-servidor-nao-encontrado').style.display = 'none';
+              document.getElementById('codbarra').focus();
+            } else {
+              // Limpar os campos se a biometria não for encontrada
+              document.getElementById('id_servidor').value = '';
+              document.getElementById('servidor').value = '';
+              // Exibir mensagem de Servidor Não Encontrado
+              document.getElementById('mensagem-servidor-nao-encontrado').style.display = 'block';
+            }
+          })
+          .catch(error => console.error(error));
+      }
+    }
+  });
+
+  document.getElementById('codbarra').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Impede a submissão padrão do formulário
+      var codbarra = this.value;
+      if (codbarra.trim() !== '') {
+        // Use Ajax para buscar o ID da chave com base no código de barras
+        fetch('/get_chave_by_codbarra/?codbarra=' + codbarra)
+          .then(response => response.json())
+          .then(data => {
+            if (data.id_chave) {
+              if (data.status === 'Emprestada') {
+                // Chave está emprestada, exibir alerta
+                alert('Chave já está emprestada.');
+                document.getElementById('codbarra').value = '';
+                document.getElementById('mensagem-chave-nao-encontrada').style.display = 'none';
+              } else {
+                document.getElementById('id_chave').value = data.id_chave;
+                document.getElementById('chave').value = data.descricao;
+                // Limpar a mensagem se a chave for encontrada
+                document.getElementById('mensagem-chave-nao-encontrada').style.display = 'none';
+              }
+            } else {
+              // Limpar os campos se a chave não for encontrada
+              document.getElementById('id_chave').value = '';
+              document.getElementById('chave').value = '';
+              // Exibir mensagem de Chave Não Encontrada
+              document.getElementById('mensagem-chave-nao-encontrada').style.display = 'block';
+            }
+          })
+          .catch(error => console.error(error));
+      }
+    }
+  });
+
+  document.getElementById('form').addEventListener('submit', function (event) {
+    // Validar campos antes de enviar o formulário
+    var biometria = document.getElementById('biometria').value.trim();
+    var codbarra = document.getElementById('codbarra').value.trim();
+    var servidor = document.getElementById('servidor').value.trim();
+    var chave = document.getElementById('chave').value.trim();
+
+    if (!biometria || !codbarra || !chave || !servidor) {
+      // Se algum dos campos obrigatórios não estiver preenchido, impedir o envio do formulário
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      event.preventDefault();
+    }
+  });
+</script>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
