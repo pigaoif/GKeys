@@ -18,18 +18,21 @@ from django.contrib import admin
 from django.urls import path
 from app.views import home, servidor_index, servidor_create, servidor_form, servidor_view, servidor_update, servidor_edit, servidor_delete
 from app.views import chave_index, chave_create, chave_form, chave_view, chave_edit, chave_update, chave_delete
-from app.views import emprestimo_index, emprestimo_create, emprestimo_form, get_servidor_by_biometria, get_chave_by_codbarra,emprestimo_view
+from app.views import emprestimo_index, emprestimo_create, emprestimo_form, get_servidor_by_biometria, get_chave_by_codbarra,emprestimo_view, devolucao_index, devolucao_create,devolucao_form
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
     path('servidor_index/', servidor_index, name='servidor_index'),
     path('chave_index/', chave_index, name='chave_index'),
     path('emprestimo_index/', emprestimo_index, name='emprestimo_index'),
+    path('devolucao_index/', devolucao_index, name='devolucao_index'),
     path('servidor_create/', servidor_create, name='servidor_create'),
     path('emprestimo_create/', emprestimo_create, name='emprestimo_create'),
+    path('devolucao_create/', devolucao_create, name='devolucao_create'),
     path('chave_create/', chave_create, name='chave_create'),
     path('servidor_form/', servidor_form, name='servidor_form'),
     path('emprestimo_form/', emprestimo_form, name='emprestimo_form'),
+    path('devolucao_form/', devolucao_form, name='devolucao_form'),
     path('chave_form/', chave_form, name='chave_form'),
     path('servidor_view/<int:pk>/', servidor_view, name='servidor_view'),
     path('emprestimo_view/<int:pk>/', emprestimo_view, name='emprestimo_view'),

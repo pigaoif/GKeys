@@ -2,11 +2,14 @@ from django.shortcuts import render, redirect
 from app.forms import ServidorForm
 from app.forms import ChaveForm
 from app.forms import EmprestimoForm
+from app.forms import DevolucaoForm
 from app.models import Servidor
 from app.models import Chave
 from app.models import Emprestimo
+from app.models import Devolucao
 from django.core.paginator import Paginator
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 
 
 
@@ -72,6 +75,22 @@ def emprestimo_index(request):
 
     return render(request, 'emprestimo_index.html', {'page': page})
 
+def devolucao_index(request):
+    data = {}
+    search = request.GET.get('search')
+    if search:
+        data['db'] = Devolucao.objects.filter(data_devolucao__icontains=search)
+        paginators = Paginator (data['db'], 1000)
+        page_num = request.GET.get('page')
+        page = paginators.get_page(page_num)
+    else:    
+        data['db'] = Devolucao.objects.all()
+        paginators = Paginator (data['db'], 10)
+        page_num = request.GET.get('page')
+        page = paginators.get_page(page_num)
+
+    return render(request, 'devolucao_index.html', {'page': page})
+
 
 def servidor_create(request):
     form = ServidorForm(request.POST or None)
@@ -118,6 +137,38 @@ def emprestimo_create(request):
                 form.add_error('id_chave', 'Chave não está livre. Status: ' + chave.status)
 
     return render(request, 'emprestimo_form.html', {'form': form})
+
+def devolucao_create(request):
+    form = DevolucaoForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            # Obtém a chave associada a Devolução
+            chave = form.cleaned_data['id_chave']
+
+            
+            print(chave.descricao)
+            
+
+            # Salva a devolução
+            devolucao = form.save()
+
+             # Obtém o empréstimo associado à chave
+            emprestimo = get_object_or_404(Emprestimo, id_chave=chave, status=True)
+
+            
+
+            # Atualiza o status do empréstimo para False (devolvido)
+            emprestimo.status = False
+            emprestimo.save()
+          
+            # Atualiza o status da chave para "Livre"
+            chave.status = 'Livre'
+            chave.save()            
+
+            return redirect('home')
+
+    return render(request, 'devolucao_form.html', {'form': form})
   
 
     
@@ -132,6 +183,10 @@ def chave_form(request):
 def emprestimo_form(request):
     form = EmprestimoForm()    
     return render(request, 'emprestimo_form.html', {'form': form} )
+
+def devolucao_form(request):
+    form = DevolucaoForm()    
+    return render(request, 'devolucao_form.html', {'form': form} )
 
 
 def servidor_view(request, pk):

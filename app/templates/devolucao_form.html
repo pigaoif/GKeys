@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content%}
+
+<div class="col-8 m-auto pt-2 pb-2 text-center card rounded bg-light mb-4">
+  <h1>CADASTRAR NOVA DEVOLUÇÃO</h1>
+</div>
+
+<div class="col-8 m-auto pt-2 pb-2 text-left mb-4 bg-light card rounded">
+  <form name="form" id="form" method="post" action="{% if db %} /devolucao_update/{{db.id}}/ {% else%} /devolucao_create/ {% endif %}">
+    {% csrf_token %}
+
+    
+
+    <div class="m-auto col-10 text-start form-group bg-light card rounded pt-2 pb-2 mt-4 mb-4">
+      <label style="margin-left: 20px;"><strong>Cod. Barra - Chave:*</strong></label>
+      <input type="text" class="form-control" id="codbarra" name="codbarra" style="margin: 10px 10px 10px 20px; width: 25%;">
+      <input type="hidden" id="id_chave" name="id_chave">
+      <label style="margin-left: 20px;"><strong>Chave:</strong></label>
+      <fieldset disabled>
+        <input type="text" class="form-control" id="chave" name="chave" style="margin: 10px 10px 10px 20px; width: 75%;">
+      </fieldset>
+      <!-- Mensagem de Chave Não Encontrada -->
+      <div id="mensagem-chave-nao-encontrada" style="color: red; margin-left: 20px; display: none;">Chave não encontrada</div>
+    </div>
+  </div>
+  
+    <div class="col-8 m-auto pt-0 pb-2 text-center ">
+      <input type="submit" class="btn btn-primary" style="width: 150px; " value="Salvar">
+      <a class="btn btn-danger" style="width: 150px; " href="/"> Voltar </a>
+    </div>
+  </form>
+
+<script>
+  document.getElementById('codbarra').focus();
+
+ 
+  document.getElementById('codbarra').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Impede a submissão padrão do formulário
+      var codbarra = this.value;
+      if (codbarra.trim() !== '') {
+        // Use Ajax para buscar o ID da chave com base no código de barras
+        fetch('/get_chave_by_codbarra/?codbarra=' + codbarra)
+          .then(response => response.json())
+          .then(data => {
+            if (data.id_chave) {
+              if (data.status === 'Livre') {
+                // Chave está emprestada, exibir alerta
+                alert('Chave não está emprestada.');
+                document.getElementById('codbarra').value = '';
+                document.getElementById('mensagem-chave-nao-encontrada').style.display = 'none';
+              } else {
+                document.getElementById('id_chave').value = data.id_chave;
+                document.getElementById('chave').value = data.descricao;
+                // Limpar a mensagem se a chave for encontrada
+                document.getElementById('mensagem-chave-nao-encontrada').style.display = 'none';
+              }
+            } else {
+              // Limpar os campos se a chave não for encontrada
+              document.getElementById('id_chave').value = '';
+              document.getElementById('chave').value = '';
+              // Exibir mensagem de Chave Não Encontrada
+              document.getElementById('mensagem-chave-nao-encontrada').style.display = 'block';
+            }
+          })
+          .catch(error => console.error(error));
+      }
+    }
+  });
+
+  document.getElementById('form').addEventListener('submit', function (event) {
+    // Validar campos antes de enviar o formulário
+    
+    var codbarra = document.getElementById('codbarra').value.trim();
+    
+    var chave = document.getElementById('chave').value.trim();
+
+    if (!codbarra || !chave) {
+      // Se algum dos campos obrigatórios não estiver preenchido, impedir o envio do formulário
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      document.getElementById('codbarra').focus();
+      event.preventDefault();
+      
+    }
+  });
+</script>
+
+{% endblock %}

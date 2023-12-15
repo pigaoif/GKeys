@@ -69,3 +69,9 @@ class Emprestimo(models.Model):
         # Garanta que o status seja sempre definido como True (1) ao salvar
         self.status = True
         super().save(*args, **kwargs)
+
+class Devolucao(models.Model):    
+    id_chave = models.ForeignKey(Chave, on_delete=models.CASCADE)    
+    data_devolucao = models.DateField(auto_now_add=True) 
+
+    
