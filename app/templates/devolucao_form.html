@@ -7,27 +7,33 @@
   <h1>CADASTRAR NOVA DEVOLUÇÃO</h1>
 </div>
 
-<div class="col-8 m-auto pt-2 pb-2 text-left mb-4 bg-light card rounded">
+<div class="col-8 m-auto  pb-4 text-left mb-4 bg-light card rounded">
   <form name="form" id="form" method="post" action="{% if db %} /devolucao_update/{{db.id}}/ {% else%} /devolucao_create/ {% endif %}">
     {% csrf_token %}
 
     
+    <div class="container d-flex">
+      
+      <div class="justify-content-center card rounded pt-2 pb-2 ele mt-4">
+        <img class="img-fluid opacity-75" style=" display: inline-flex; width: 150px;" src="{% static 'img/devolver.png'%}" alt="User">
+      </div>
 
-    <div class="m-auto col-10 text-start form-group bg-light card rounded pt-2 pb-2 mt-4 mb-4">
-      <label style="margin-left: 20px;"><strong>Cod. Barra - Chave:*</strong></label>
-      <input type="text" class="form-control" id="codbarra" name="codbarra" style="margin: 10px 10px 10px 20px; width: 25%;">
-      <input type="hidden" id="id_chave" name="id_chave">
-      <label style="margin-left: 20px;"><strong>Chave:</strong></label>
-      <fieldset disabled>
-        <input type="text" class="form-control" id="chave" name="chave" style="margin: 10px 10px 10px 20px; width: 75%;">
-      </fieldset>
-      <!-- Mensagem de Chave Não Encontrada -->
-      <div id="mensagem-chave-nao-encontrada" style="color: red; margin-left: 20px; display: none;">Chave não encontrada</div>
-    </div>
+      <div class="m-auto col-10 text-start form-group bg-light card rounded pt-2 pb-2 mt-4 ">
+        <label style="margin-left: 20px;"><strong>Cod. Barra - Chave:*</strong></label>
+        <input type="text" class="form-control" id="codbarra" name="codbarra" style="margin: 10px 10px 10px 20px; width: 25%;">
+        <input type="hidden" id="id_chave" name="id_chave">
+        <label style="margin-left: 20px;"><strong>Chave:</strong></label>
+        <fieldset disabled>
+          <input type="text" class="form-control" id="chave" name="chave" style="margin: 10px 10px 10px 20px; width: 75%;">
+        </fieldset>
+        <!-- Mensagem de Chave Não Encontrada -->
+        <div id="mensagem-chave-nao-encontrada" style="color: red; margin-left: 20px; display: none;">Chave não encontrada</div>
+      </div>
+    </div>  
   </div>
   
     <div class="col-8 m-auto pt-0 pb-2 text-center ">
-      <input type="submit" class="btn btn-primary" style="width: 150px; " value="Salvar">
+      <input type="submit" id="botao" class="btn btn-primary" style="width: 150px; " value="Salvar">
       <a class="btn btn-danger" style="width: 150px; " href="/"> Voltar </a>
     </div>
   </form>
@@ -56,6 +62,7 @@
                 document.getElementById('chave').value = data.descricao;
                 // Limpar a mensagem se a chave for encontrada
                 document.getElementById('mensagem-chave-nao-encontrada').style.display = 'none';
+                document.getElementById('botao').focus();
               }
             } else {
               // Limpar os campos se a chave não for encontrada
