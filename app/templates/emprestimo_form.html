@@ -9,8 +9,9 @@
 
 <div class="col-8 m-auto pb-4 text-left mb-4 bg-light card rounded">
   <form name="form" id="form" method="post" action="{% if db %} /emprestimo_update/{{db.id}}/ {% else%} /emprestimo_create/ {% endif %}">
-    {% csrf_token %}
     
+    {% csrf_token %}
+    <input type="hidden" id="status" name="status" value=True>
     <div class="container d-flex">
       
       <div class="justify-content-center card rounded pt-2 pb-2 ele mt-4">

@@ -38,11 +38,12 @@ STATUS = (
 
 class Chave(models.Model):
     descricao = models.CharField(max_length=150)
-    status = models.CharField(max_length=22, choices=STATUS)     
+    status = models.CharField(max_length=22, choices=STATUS, default='Livre')     
     codbarra = models.CharField(max_length=150, unique=True)
 
     def __str__(self):
         return self.descricao
+        
     
     def clean(self):
         # Validação personalizada antes de salvar
@@ -62,13 +63,7 @@ class Emprestimo(models.Model):
     status = models.BooleanField(default=True)
     data_emprestimo = models.DateField(auto_now_add=True) 
 
-    def __str__(self):
-         return f"{self.id_servidor} - {self.id_chave} - {self.status}"
     
-    def save(self, *args, **kwargs):
-        # Garanta que o status seja sempre definido como True (1) ao salvar
-        self.status = True
-        super().save(*args, **kwargs)
 
 class Devolucao(models.Model):    
     id_chave = models.ForeignKey(Chave, on_delete=models.CASCADE)    
