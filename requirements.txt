@@ -1,7 +1,11 @@
 asgiref==3.7.2
+chardet==5.2.0
 crispy-bootstrap4==2023.1
 crispy-bootstrap5==2023.10
 Django==4.2.7
 django-crispy-forms==2.1
+Pillow==10.1.0
+python-barcode==0.15.1
+reportlab==4.0.9
 sqlparse==0.4.4
 typing_extensions==4.8.0
