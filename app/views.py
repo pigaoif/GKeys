@@ -10,47 +10,91 @@ from app.models import Devolucao
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-from barcode import EAN13
+from reportlab.pdfgen import canvas
 from django.http import HttpResponse
-from django.views.generic import View
-from django.utils import timezone
+from django.shortcuts import get_object_or_404
+import barcode
+from barcode.writer import ImageWriter
 from io import BytesIO
-from barcode.writer import ImageWriter 
-from PIL import Image, ImageDraw, ImageFont
+from reportlab.lib.units import mm
+from PIL import Image
+from reportlab.lib.utils import ImageReader
 
-# Create your views here.
+def gerar_pdf_chaves(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="chaves_codigos_barras.pdf"'
+
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    y_position = 800
+    x_position = 50  # Definir conforme necessário
+
+    for chave in Chave.objects.all():
+        codbarra = chave.codbarra
+        # Configura opções do writer aqui...
+        
+        # Cria o objeto EAN com as opções customizadas
+        EAN = barcode.get_barcode_class('ean13')
+        ean = EAN(codbarra, writer=ImageWriter())
+
+        buffer_codbarra = BytesIO()
+        ean.write(buffer_codbarra)
+        buffer_codbarra.seek(0)
+        
+        # Use a Pillow para abrir a imagem a partir do buffer
+        image = Image.open(buffer_codbarra)
+
+        # Move a posição Y para baixo a cada novo código de barras, para não sobrepor
+        y_position -= 50
+
+        # Desenha a imagem na posição atual
+        # Nota: `reportlab` exige que a imagem seja salva em um formato que ele possa ler diretamente
+        image.save(buffer_codbarra, format='PNG')
+        buffer_codbarra.seek(0)
+        p.drawImage(ImageReader(buffer_codbarra), x_position, y_position, width=50*mm, height=20*mm)  # Ajuste o tamanho conforme necessário
+
+        if y_position < 100:
+            p.showPage()
+            y_position = 800
+
+    p.save()
+
+    buffer.seek(0)
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response
 
 
-class GerarCodBarraView(View):
-    def get(self, request, pk):
-        try:
-            chave = Chave.objects.get(pk=pk)
-            barcode_value = chave.codbarra
-            descricao = chave.descricao
+def gerar_codbarra(request, chave_id):
+    chave = get_object_or_404(Chave, pk=chave_id)
+    codbarra = chave.codbarra
+    descricao = chave.descricao
+    descricao_segura = descricao.replace(" ", "_").replace("/", "_").replace("\\", "_").replace(":", "_").replace("*", "_").replace("?", "_").replace("\"", "_").replace("<", "_").replace(">", "_").replace("|", "_")
 
-            # Cria um objeto BytesIO para armazenar os dados do código de barras
-            buffer = BytesIO()
+    # Configura opções do writer
+    options = {
+        "module_width": 0.2,  # Largura das barras. Valores menores = barras mais finas.
+        "module_height": 8.0,  # Altura das barras. Valores maiores = barras mais altas.
+        "quiet_zone": 3.5,  # Margens laterais. Valores maiores = imagem mais larga.
+        "text_distance": 5.0,  # Distância do texto (código) para as barras.
+        "background": 'white',  # Cor de fundo.
+        "foreground": 'black',  # Cor das barras.
+        "font_size": 7,  # Tamanho da fonte do texto sob o código.
+        "center_text": True,  # Centraliza o texto sob o código de barras.
+    }
 
-            # Cria o código de barras e salva no buffer
-            cod_barra = EAN13(barcode_value, writer=ImageWriter())
-            cod_barra.write(buffer)
+    # Cria o objeto EAN com as opções customizadas
+    EAN = barcode.get_barcode_class('ean13')
+    ean = EAN(codbarra, writer=ImageWriter())
 
-            # Adicione logs para ajudar a diagnosticar
-            print(f"Barcode Value: {barcode_value}")
-            print(f"Buffer Size: {buffer.tell()} bytes")
+    buffer = BytesIO()
+    # Passa as opções do writer ao gerar o código
+    ean.write(buffer, options=options)
+    buffer.seek(0)
 
-            # Move o ponteiro do buffer de volta para o início
-            buffer.seek(0)
-
-            # Configura os cabeçalhos da resposta para forçar o download
-            response = HttpResponse(buffer.getvalue(), content_type='image/png')
-            response['Content-Disposition'] = f'attachment; filename="{descricao}_codbarra.png"'
-
-            return response
-
-        except Chave.DoesNotExist:
-            return HttpResponse("Chave não encontrada", status=404)
-
+    response = HttpResponse(buffer.getvalue(), content_type='image/png')
+    response['Content-Disposition'] = f'attachment; filename="{descricao_segura}.png"'
+    return response
 
 def home(request):  
     data = {}
@@ -80,6 +124,7 @@ def servidor_index(request):
     return render(request, 'servidor_index.html', {'page': page})
 
 def chave_index(request):
+    
     data = {}
     search = request.GET.get('search')
     if search:

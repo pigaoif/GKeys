@@ -19,7 +19,8 @@ from django.urls import path
 from app.views import home, servidor_index, servidor_create, servidor_form, servidor_view, servidor_update, servidor_edit, servidor_delete
 from app.views import chave_index, chave_create, chave_form, chave_view, chave_edit, chave_update, chave_delete,devolucao_view
 from app.views import emprestimo_index, emprestimo_create, emprestimo_form, get_servidor_by_biometria, get_chave_by_codbarra,emprestimo_view, devolucao_index, devolucao_create,devolucao_form
-from app.views import GerarCodBarraView
+from app.views import gerar_codbarra, gerar_pdf_chaves
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -47,7 +48,8 @@ urlpatterns = [
     path('chave_delete/<int:pk>/', chave_delete, name='chave_delete'),
     path('get_servidor_by_biometria/', get_servidor_by_biometria, name='get_servidor_by_biometria'),
     path('get_chave_by_codbarra/', get_chave_by_codbarra, name='get_chave_by_codbarra'),
-    path('gerarcodbarra/<int:pk>/', GerarCodBarraView.as_view(), name='gerar_codbarra'),
+    path('gerar_codbarra/<int:chave_id>/', gerar_codbarra, name='gerar_codbarra'),
+     path('gerar_pdf_chaves/', gerar_pdf_chaves, name='gerar_pdf_chaves'),
 
 ]
 

@@ -1,11 +1,12 @@
 from django import forms
+from .models import Chave
 from app.models import Servidor
 from app.models import Chave
 from app.models import Emprestimo
 from app.models import Devolucao
+import barcode
+from barcode.writer import ImageWriter
 import random
-
-
 
 
 class ServidorForm(forms.ModelForm):
@@ -20,10 +21,25 @@ class ChaveForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(ChaveForm, self).__init__(*args, **kwargs)
-        # Gera um número aleatório de 12 dígitos para o campo codbarra
-        if not self.instance.pk:  # Verifica se é uma nova instância
-            self.initial['codbarra'] = ''.join([str(random.randint(0, 9)) for _ in range(12)])
-
+        
+        # Torna o campo codbarra não editável
+        self.fields['codbarra'].disabled = True
+        self.fields['status'].disabled = True
+        
+        # Checa se é uma nova instância (ou seja, ainda não salva no banco de dados)
+        if not self.instance.pk:
+            # Geração do código de barras
+            random_digits = ''.join([str(random.randint(0, 9)) for _ in range(12)])
+            EAN = barcode.get_barcode_class('ean13')
+            ean = EAN(random_digits, writer=ImageWriter())
+            
+            # Define o valor inicial do campo codbarra com o código de barras gerado
+            self.fields['codbarra'].initial = ean.get_fullcode()
+            # Opcional: Caso você queira garantir que o campo seja somente leitura na interface,
+            # mesmo após a definição do valor inicial.
+            self.fields['codbarra'].widget.attrs['readonly'] = True
+   
+    
 class EmprestimoForm(forms.ModelForm):
     
     class Meta:
