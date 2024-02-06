@@ -29,20 +29,23 @@
     </form>
   </div>
 
-<div class="col-10 m-auto pt-2 pb-2 card rounded bg-light">
-    <div class="row m-auto">
+  <div class="col-12 col-lg-10 col-sm-10 col-xs-10 col-md-10 m-auto py-2 card rounded bg-light">
+    <div class="row justify-content-center">
         {% for a in emprestimo %}
-        <div class="col-md-{% if emprestimo|length <= 4 %}6{% else %}3{% endif %} mt-2 mb-2">
+        <div class="col-md-3 mt-2 mb-2">
             <div class="card" style="background-color: aquamarine;">
                 <div class="card-body">
                     <h3 class="card-title text-center">Chave: {{ a.id_chave }}</h3>
-                    <h5 class="card-title text-center">Servidor:  {{ a.id_servidor }}</h5>
-                    <p class="card-title text-center"><strong>Data:</strong>{{ a.data_emprestimo }}</p>
+                    <h5 class="card-title text-center">Servidor: {{ a.id_servidor }}</h5>
+                    <p class="card-title text-center"><strong>Data:</strong> {{ a.data_emprestimo }}</p>
                 </div>
             </div>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center mt-2 mb-2">
+            <h4 style="color: red;">NENHUMA CHAVE EMPRESTADA</h4>
         </div>
         {% endfor %}
     </div>
 </div>
-
 {% endblock %}

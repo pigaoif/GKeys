@@ -128,7 +128,7 @@ def chave_index(request):
     data = {}
     search = request.GET.get('search')
     if search:
-        data['db'] = Chave.objects.filter(descricao__icontains=search).order_by('descricao')
+        data['db'] = Chave.objects.filter(descricao__icontains=search).order_by('descricao') 
         paginators = Paginator (data['db'], 1000)
         page_num = request.GET.get('page')
         page = paginators.get_page(page_num)
@@ -144,12 +144,12 @@ def emprestimo_index(request):
     data = {}
     search = request.GET.get('search')
     if search:
-        data['db'] = Emprestimo.objects.filter(data_emprestimo__icontains=search).order_by('data_emprestimo')
+        data['db'] = Emprestimo.objects.filter(data_emprestimo__icontains=search).order_by('-data_emprestimo')
         paginators = Paginator (data['db'], 1000)
         page_num = request.GET.get('page')
         page = paginators.get_page(page_num)
     else:    
-        data['db'] = Emprestimo.objects.all().order_by('data_emprestimo')
+        data['db'] = Emprestimo.objects.all().order_by('-data_emprestimo')
         paginators = Paginator (data['db'], 10)
         page_num = request.GET.get('page')
         page = paginators.get_page(page_num)
@@ -160,12 +160,12 @@ def devolucao_index(request):
     data = {}
     search = request.GET.get('search')
     if search:
-        data['db'] = Devolucao.objects.filter(data_devolucao__icontains=search).order_by('data_devolucao')
+        data['db'] = Devolucao.objects.filter(data_devolucao__icontains=search).order_by('-data_devolucao')
         paginators = Paginator (data['db'], 1000)
         page_num = request.GET.get('page')
         page = paginators.get_page(page_num)
     else:    
-        data['db'] = Devolucao.objects.all().order_by('data_devolucao')
+        data['db'] = Devolucao.objects.all().order_by('-data_devolucao')
         paginators = Paginator (data['db'], 10)
         page_num = request.GET.get('page')
         page = paginators.get_page(page_num)
