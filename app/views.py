@@ -104,9 +104,14 @@ def home(request):
     data = {}
     search = request.GET.get('search')
     if search:
-        data['emprestimo'] = Emprestimo.objects.filter(id_chave__descricao__icontains=search).order_by('data_emprestimo')
+        # Filtra empréstimos por descrição que contenha 'search' E que tenham status=True
+        data['emprestimo'] = Emprestimo.objects.filter(
+            id_chave__descricao__icontains=search,
+            status=True  # Garante que apenas empréstimos ativos sejam retornados
+        ).order_by('data_emprestimo')
         
     else:    
+        # Se não houver pesquisa, continua a retornar apenas empréstimos ativos
         data['emprestimo'] = Emprestimo.objects.filter(status=True).order_by('data_emprestimo')
 
     return render(request, 'index.html', data)
