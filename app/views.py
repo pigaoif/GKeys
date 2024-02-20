@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from app.forms import ServidorForm
 from app.forms import ChaveForm
@@ -19,6 +20,7 @@ from io import BytesIO
 from reportlab.lib.units import mm
 from PIL import Image
 from reportlab.lib.utils import ImageReader
+
 
 def gerar_pdf_chaves(request):
     response = HttpResponse(content_type='application/pdf')
@@ -96,6 +98,8 @@ def gerar_codbarra(request, chave_id):
     response['Content-Disposition'] = f'attachment; filename="{descricao_segura}.png"'
     return response
 
+
+@login_required
 def home(request):  
     data = {}
     search = request.GET.get('search')
@@ -107,6 +111,7 @@ def home(request):
 
     return render(request, 'index.html', data)
 
+@login_required
 def servidor_index(request):
     data = {}
     search = request.GET.get('search')
@@ -123,6 +128,7 @@ def servidor_index(request):
 
     return render(request, 'servidor_index.html', {'page': page})
 
+@login_required
 def chave_index(request):
     
     data = {}
@@ -140,6 +146,7 @@ def chave_index(request):
 
     return render(request, 'chave_index.html', {'page': page})
 
+@login_required
 def emprestimo_index(request):
     data = {}
     search = request.GET.get('search')
@@ -156,6 +163,7 @@ def emprestimo_index(request):
 
     return render(request, 'emprestimo_index.html', {'page': page})
 
+@login_required
 def devolucao_index(request):
     data = {}
     search = request.GET.get('search')
@@ -172,7 +180,7 @@ def devolucao_index(request):
 
     return render(request, 'devolucao_index.html', {'page': page})
 
-
+@login_required
 def servidor_create(request):
     form = ServidorForm(request.POST or None)
 
@@ -183,6 +191,7 @@ def servidor_create(request):
 
     return render(request, 'servidor_form.html', {'form': form})
 
+@login_required
 def chave_create(request):
     form = ChaveForm(request.POST or None)
 
@@ -194,7 +203,7 @@ def chave_create(request):
     return render(request, 'chave_form.html', {'form': form})
 
 
-
+@login_required
 def emprestimo_create(request):
     form = EmprestimoForm(request.POST or None)
 
@@ -219,6 +228,7 @@ def emprestimo_create(request):
 
     return render(request, 'emprestimo_form.html', {'form': form})
 
+@login_required
 def devolucao_create(request):
     form = DevolucaoForm(request.POST or None)
 
@@ -252,48 +262,55 @@ def devolucao_create(request):
     return render(request, 'devolucao_form.html', {'form': form})
   
 
-    
+@login_required    
 def servidor_form(request):
     form = ServidorForm()    
     return render(request, 'servidor_form.html', {'form': form} )
 
+@login_required
 def chave_form(request):
     form = ChaveForm()    
     return render(request, 'chave_form.html', {'form': form} )
 
+@login_required
 def emprestimo_form(request):
     form = EmprestimoForm()    
     return render(request, 'emprestimo_form.html', {'form': form} )
 
+@login_required
 def devolucao_form(request):
     form = DevolucaoForm()    
     return render(request, 'devolucao_form.html', {'form': form} )
 
-
+@login_required
 def servidor_view(request, pk):
     data = {}
     data['db'] = Servidor.objects.get(pk=pk)
     
     return render(request, 'servidor_view.html', data)
 
+@login_required
 def chave_view(request, pk):
     data = {}
     data['db'] = Chave.objects.get(pk=pk)
     
     return render(request, 'chave_view.html', data)
 
+@login_required
 def emprestimo_view(request, pk):
     data = {}
     data['db'] = Emprestimo.objects.get(pk=pk)
 
     return render(request, 'emprestimo_view.html', data)
 
+@login_required
 def devolucao_view(request, pk):
     data = {}
     data['db'] = Devolucao.objects.get(pk=pk)
 
     return render(request, 'devolucao_view.html', data)
 
+@login_required
 def servidor_update(request, pk):   
     data = {}
     data['db'] = Servidor.objects.get(pk=pk)
@@ -302,6 +319,7 @@ def servidor_update(request, pk):
         form.save()
         return redirect('servidor_index')
 
+@login_required
 def chave_update(request, pk):   
     data = {}
     data['db'] = Chave.objects.get(pk=pk)
@@ -310,29 +328,33 @@ def chave_update(request, pk):
         form.save()
         return redirect('chave_index')
 
+@login_required
 def servidor_edit(request, pk):
     data = {}
     data['db'] = Servidor.objects.get(pk=pk)
     data['form'] = ServidorForm(instance=data['db']) 
     return render(request, 'servidor_form.html', data)
 
+@login_required
 def chave_edit(request, pk):
     data = {}
     data['db'] = Chave.objects.get(pk=pk)
     data['form'] = ChaveForm(instance=data['db']) 
     return render(request, 'chave_form.html', data)
 
+@login_required
 def servidor_delete(request, pk):
     db = Servidor.objects.get(pk=pk)
     db.delete()    
     return redirect('servidor_index')
 
+@login_required
 def chave_delete(request, pk):
     db = Chave.objects.get(pk=pk)
     db.delete()    
     return redirect('chave_index')
     
-
+@login_required
 def get_servidor_by_biometria(request):
     biometria = request.GET.get('biometria', None)
     data = {}
@@ -349,7 +371,7 @@ def get_servidor_by_biometria(request):
     return JsonResponse(data)
 
 
-
+@login_required
 def get_chave_by_codbarra(request):
     codbarra = request.GET.get('codbarra', None)
     data = {}

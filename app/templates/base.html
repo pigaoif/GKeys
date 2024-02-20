@@ -17,40 +17,72 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+  
 
     <nav class="navbar p-2 bg-success ">
         <div class="container-fluid  bg-success ">
           <a class="fs-4 navbar-brand text-light" href="/"><strong><img style="width: 15px;" src="{% static 'img/icone.png'%}" alt="icone"> GUARDIAN KEYS <img style="width: 15px;" src="{% static 'img/icone.png'%}" alt="icone"></strong> </a>
+                   
             <button class=" btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
           <div class="offcanvas offcanvas-end  bg-success text-light opacity-75" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             
             <div class="offcanvas-header">
+              
               <h5 class="offcanvas-title " id="offcanvasNavbarLabel">MENU</h5>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             
             <div class="offcanvas-body ">
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 ">
+                
+                
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item ">
+                  <a class="nav-link active text-white" aria-current="page" href="/accounts/login"><strong>Login</strong></a>
+                </li>
+                {% else %}
+                
+                <li class="nav-item ">
+                  <p class="nav-link active text-warning" aria-current="page" href="#"><strong>Bem vindo, {{request.user.username}}</strong></p>
+                </li>
+
                 <li class="nav-item ">
                   <a class="nav-link active text-white" aria-current="page" href="/"><strong>Home</strong></a>
                 </li>
+                
+                
+                
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="/servidor_index/"><strong>Servidor</strong></a>
                 </li>
+                
+
+                
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="/chave_index/"><strong>Chave</strong></a>
                 </li>
+                
+
+                
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="/emprestimo_index/"><strong>Empréstimo</strong></a>
                 </li>
+                
+
+                
                 <li class="nav-item">
                     <a class="nav-link active text-white" aria-current="page" href="/devolucao_index/"><strong>Devolução</strong></a>
                 </li>
+                
+
+                
                 <li class="nav-item">
-                    <a class="nav-link active text-warning" aria-current="page" href="#"><strong>Logout</strong></a>
+                    <a class="nav-link active text-warning" aria-current="page" href="/accounts/logout"><strong>Logout</strong></a>
                 </li>               
+                {% endif %}
+
               </ul>
 
               

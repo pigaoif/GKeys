@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from app.views import home, servidor_index, servidor_create, servidor_form, servidor_view, servidor_update, servidor_edit, servidor_delete
 from app.views import chave_index, chave_create, chave_form, chave_view, chave_edit, chave_update, chave_delete,devolucao_view
 from app.views import emprestimo_index, emprestimo_create, emprestimo_form, get_servidor_by_biometria, get_chave_by_codbarra,emprestimo_view, devolucao_index, devolucao_create,devolucao_form
@@ -49,7 +49,8 @@ urlpatterns = [
     path('get_servidor_by_biometria/', get_servidor_by_biometria, name='get_servidor_by_biometria'),
     path('get_chave_by_codbarra/', get_chave_by_codbarra, name='get_chave_by_codbarra'),
     path('gerar_codbarra/<int:chave_id>/', gerar_codbarra, name='gerar_codbarra'),
-     path('gerar_pdf_chaves/', gerar_pdf_chaves, name='gerar_pdf_chaves'),
+    path('gerar_pdf_chaves/', gerar_pdf_chaves, name='gerar_pdf_chaves'),
+    path ('accounts/', include('django.contrib.auth.urls'))
 
 ]
 
